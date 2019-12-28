@@ -1,6 +1,5 @@
 # include <stdio.h>
 # include <iostream>
-// # include <thread>
 # include <pthread.h>
 # include <stdlib.h>
 # include <string.h>
@@ -13,14 +12,22 @@ using namespace std;
 const int MAXSTR = 2048;
 const int MAXUSR = 3;
 
-void newUser(int sockfd, int clientSockfd, struct sockaddr_in clientInfo);
+// define Argument strct passing to pthread
+typedef struct _argument
+{
+    int sockfd;
+    int clientSockfd;
+    struct sockaddr_in clientInfo;
+} Argument;
+
+void* newUser(void* argsVoid);
 
 int main(int argc , char *argv[])
 {
-    // construct the socket
     char message[] = {"Hi Client, this is server.\n"};
-    int sockfd = 0;
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+    // construct the socket
+    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sockfd == -1)
         printf("Fail to create a socket.");
@@ -32,15 +39,15 @@ int main(int argc , char *argv[])
     // set the socket info
     serverInfo.sin_family = PF_INET;
     serverInfo.sin_addr.s_addr = INADDR_ANY;
-    // serverInfo.sin_port = htons(2400);
-    serverInfo.sin_port = htons(8700);
+    // serverInfo.sin_port = htons(2400); // net0
+    serverInfo.sin_port = htons(8700); // local
     bind(sockfd, (struct sockaddr*)& serverInfo, sizeof(serverInfo));
     listen(sockfd, MAXUSR);
 
     // thread
-    // pthread_t thread[MAXUSR];
+    pthread_t thread[MAXUSR];
 
-    // int noThread = 0;
+    int threadCnt = 0;
 
     // keep server alive
     while (true)
@@ -50,29 +57,30 @@ int main(int argc , char *argv[])
         socklen_t addrlen = sizeof(clientInfo);
         int clientSockfd = accept(sockfd, (struct sockaddr*)& clientInfo, &addrlen);
 
-        // create thread
-        // int* sockfdPtr = &sockfd;
-        // int* clientSockfdPtr = &clientSockfd;
-        // struct sockaddr_in* clientInfoPtr = &clientInfo;
+        // set pthread Argument
+        Argument args;
+        args.sockfd = sockfd;
+        args.clientSockfd = clientSockfd;
+        args.clientInfo = clientInfo;
 
-        // pthread_create(&thread[noThread], NULL, newUser, (void*) sockfdPtr, (void*) clientSockfdPtr, (void*) clientInfoPtr);
-        newUser(sockfd, clientSockfd, clientInfo);
+        // create thread
+        pthread_create(&thread[threadCnt], NULL, newUser, (void*)& args);
 
         // assign to a thread and prepare for next client
-        // thread mThread(newUser, sockfd, clientSockfd, clientInfo);
-        // noThread++;
+        threadCnt++;
     }
 
     return 0;
 }
 
 // add new user for threading
-void newUser(int sockfd, int clientSockfd, struct sockaddr_in clientInfo)
-// void newUser(void* sockfdPtr, void* clientSockfdPtr, void* clientInfoPtr)
+void* newUser(void* argsVoid)
 {
-    // int sockfd = *((int*) sockfdPtr);
-    // int clientSockfd = *((int*) clientSockfdPtr);
-    // struct sockaddr_in clientInfo = *((struct sockaddr_in*) clientInfoPtr);
+    // parse args
+    Argument* args = (Argument*) argsVoid;
+    int sockfd = args->sockfd;
+    int clientSockfd = args->clientSockfd;
+    struct sockaddr_in clientInfo = args->clientInfo;
 
     char inputBuffer[256]; // each recv line's buffer
     int revCnt = 0;        // for bug
