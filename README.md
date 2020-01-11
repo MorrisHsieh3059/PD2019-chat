@@ -1,6 +1,11 @@
 # PD2019-chat
  C++
 
+Instruction:
+    ---> ./server: compile the exe ur own (cmd: g++ server.cpp -lpthread -o host.out)
+    --> ./qtclient: contains the whole Qt client, recommend to compile ur own
+    ---> ./qtclient_execute: folder contains execute files (./qtclient)
+
 init commit:
     local version
 
@@ -13,3 +18,11 @@ compile: g++ server.cpp -lpthread -o host.out
 
 V1.0.2:<br>
 QT client version (semi-product), seldomly bugged
+
+V2.0.0:<br>
+Final Version<br>
+Notes: (1) remove ./client: outdated client in terminal
+(2) ./qtclient: the client in Qt version,
+(3) ./qtclient_execute:
+ folder contains execute files (./qtclient), but actually required user to
+ compile in their own Qt Creator (Don't ask me why, I don't know...)

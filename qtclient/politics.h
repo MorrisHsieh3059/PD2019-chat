@@ -5,7 +5,6 @@
 # include <QStringListModel>
 # include <QTcpSocket>
 # include "worker.h"
-# include "func_client.h"
 
 namespace Ui {
 class Politics;
@@ -14,12 +13,10 @@ class Politics;
 class Politics : public QDialog
 {
     Q_OBJECT
-//    friend void WorkerThread::run();
 
 public:
     explicit Politics(QWidget *parent = nullptr);
     ~Politics();
-    void getOtherMessage();
 
 private slots:
     void on_sendBtn_clicked();
@@ -29,6 +26,7 @@ private:
     Ui::Politics *ui;
     QTcpSocket* socket;
     WorkerThread* workerThread;
+    QString name;
     void disJoinServer();
     void startWorkInAThread();
     void handleResults();

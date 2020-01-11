@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    name = "";
     ui->setupUi(this);
 }
 
@@ -30,3 +31,4 @@ void MainWindow::on_pushButton_clicked()
 
     groupmenudockwidget.exec();
 }
+

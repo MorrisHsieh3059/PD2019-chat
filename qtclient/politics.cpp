@@ -1,8 +1,10 @@
 #include <QDebug>
 #include <QStringListModel>
+#include <QWidget>
 #include <QMessageBox>
 #include <string>
 #include <cstring>
+#include <cstdlib>
 using namespace std;
 
 #include "politics.h"
@@ -13,21 +15,25 @@ Politics::Politics(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Politics)
 {
+
     model = new QStringListModel(this);
     ui->setupUi(this);
-
+    ui->chatRecords->setEditTriggers(0);                 // set chatRecords to be uneditable
     socket = new QTcpSocket(this);
-    socket->connectToHost("127.0.0.1", 8700);
+    // socket->connectToHost("127.0.0.1", 8700); // local
+    // socket->connectToHost("192.168.139.131", 2400); // morris' local
+    // socket->connectToHost("192.168.22.128", 2400); // wayne' local
+    socket->connectToHost("140.112.30.40", 2400); // csies' local
 
-    qDebug() << "socket tesst: " << socket->error();
+    qDebug() << "socket test: " << socket->error();
     if (socket == nullptr)
-    {
         qDebug() << "Fail to connect\n";
-    }
     else
         qDebug() << "Linked";
 
     startWorkInAThread();
+
+    qDebug() << name;
 }
 
 void Politics::disJoinServer()
@@ -55,7 +61,7 @@ Politics::~Politics()
 
 void Politics::handleResults()
 {
-    qDebug() << "--------------------End Thread.";
+    qDebug() << "-------------------End Thread.";
 }
 
 void Politics::startWorkInAThread()
@@ -64,11 +70,11 @@ void Politics::startWorkInAThread()
     workerThread->setSocket(socket);
     workerThread->setStringListModel(model);
     workerThread->setListView(ui->chatRecords);
+    workerThread->setUserInfo(ui->userInfo);
     connect(workerThread, &WorkerThread::resultReady, this, &Politics::handleResults);
     connect(workerThread, &WorkerThread::finished, workerThread, &QObject::deleteLater);
     workerThread->start();
 }
-
 
 void Politics::on_sendBtn_clicked()
 {
@@ -80,9 +86,6 @@ void Politics::on_sendBtn_clicked()
     list << text;
     if (text.length() > 0)
     {
-        list = model->stringList() + list;
-        model->setStringList(list);
-        ui->chatRecords->setModel(model);
         ui->lineEdit->clear();
     }
 
@@ -90,25 +93,3 @@ void Politics::on_sendBtn_clicked()
     string text_str = text.toStdString();
     qDebug() << "sending bytes " << socket->write(text_str.c_str());
 }
-
-
-
-//void Politics::getOtherMessage()
-//{
-//    QStringList list;
-
-//    // get from server
-//    QByteArray recv = "N/A, server is busy";
-//    socket->waitForReadyRead();
-//    recv = socket->readAll();
-//    qDebug() << "Recv message --> " << recv << "w/ length: " << recv.length();
-
-//    // project to chatRecords
-//    list << recv;
-//    if (recv.length() > 0)
-//    {
-//        list = model->stringList() + list;
-//        model->setStringList(list);
-//        ui->chatRecords->setModel(model);
-//    }
-//}

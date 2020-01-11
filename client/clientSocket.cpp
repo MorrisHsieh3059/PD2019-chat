@@ -34,7 +34,7 @@ int main()
     serverInfo.sin_port = htons(8700);                       // local port */
 
 	/* csie server (net0) */
-	serverInfo.sin_addr.s_addr = inet_addr("140.112.30.40"); // net0 IP address
+	serverInfo.sin_addr.s_addr = inet_addr("140.112.30.36"); // net0 IP address
     serverInfo.sin_port = htons(2400);                       // net0 port */
 
 	// socket connection

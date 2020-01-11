@@ -25,8 +25,9 @@ int main(int argc , char *argv[])
     // set the socket info
     serverInfo.sin_family = PF_INET;
     serverInfo.sin_addr.s_addr = INADDR_ANY;
-    // serverInfo.sin_port = htons(2400); // net0
-    serverInfo.sin_port = htons(8700); // local
+    serverInfo.sin_port = htons(2400); // net0-politics
+    // serverInfo.sin_port = htons(2500); // net0-travel
+    // serverInfo.sin_port = htons(8700); // local
     bind(serverSockfd, (struct sockaddr*)& serverInfo, sizeof(serverInfo));
     listen(serverSockfd, MAXUSR);
 

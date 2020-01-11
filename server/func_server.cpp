@@ -22,7 +22,14 @@ void* newUser(void* argsVoid)
     int clientSockfd = args->clientSockfd;
     struct sockaddr_in clientInfo = args->clientInfo;
 
+	// when new uer comes in, notify all clients w/ new userCnt
 	printf("%d users\n", *threadCntPtr);
+    for (int idx = 0; idx < *threadCntPtr; idx++)
+	{
+		char notification[15];
+		sprintf(notification, "%s%d>%s", USER_ADD_NOTE, *threadCntPtr, NAME[clientSockfd]);
+		send(uidPtr[idx], notification, strlen(notification) + 1, 0);
+	}
 
     char inputBuffer[256]; // each recv line's buffer
     int revCnt = 0;        // for bug
@@ -36,9 +43,10 @@ void* newUser(void* argsVoid)
         bytesReceived = recv(clientSockfd, inputBuffer, sizeof(inputBuffer), 0);
         inputBuffer[bytesReceived] = '\0';
 
+		char userName[MAXSTR];
+		strcpy(userName, NAME[clientSockfd]);
+
         // for every client input line
-//        if (revCnt % 8 == 0) // bug
-//        {
         // if the client want to exit from server
 		if (strcmp(inputBuffer, "exit") == 0)
 		{
@@ -50,31 +58,37 @@ void* newUser(void* argsVoid)
             // Echo message back to all users
             for (int idx = 0; idx < *threadCntPtr; idx++)
             {
-                char res[MAXSTR];
-                strcpy(res, inputBuffer);
-
+				char res[MAXSTR];
+				strcpy(res, inputBuffer);
 				// if meaningful message
 				if (strlen(res) > 0)
 				{
+					char msg[MAXSTR];
                     cout << "---> try to send to client<" << uidPtr[idx] << ">, w/ status <";
 	                if (uidPtr[idx] == clientSockfd) // for sender
-		                strcat(res, SENDER);
+					{
+						sprintf(msg, "%s: %s%s%d", userName, res, SENDER, *threadCntPtr);
+		                // strcat(res, msg);
+					}
 			        else                             // for sendee
-				        strcat(res, SENDEE);
+					{
+						sprintf(msg, "%s: %s%s%d", userName, res, SENDEE, *threadCntPtr);
+						// strcat(res, msg);
+					}
 
-					cout << send(uidPtr[idx], res, strlen(res) + 1, 0) << ">\n";
+					cout << send(uidPtr[idx], msg, strlen(msg) + 1, 0) << ">\n";
 					line++;
 					printf("Get<%d>: <%s>\n", line, inputBuffer);
 				}
             }
         }
-//        }
         revCnt++;
     }
 
 	// close client socket
 	close(clientSockfd);
-    cout << "Client: " << clientSockfd << " DISCONNECT!\n";
+    cout << "Client: " << clientSockfd << " DISCONNECT! with existing users: " <<
+		                  *threadCntPtr - 1<< "\n";
 
     // update alive people
     for (int i = 0; i < *threadCntPtr; i++)
@@ -86,6 +100,14 @@ void* newUser(void* argsVoid)
 
     sort(uidPtr, uidPtr + MAXUSR, greater<int>()); // from high to low (-1 at btm)
     *threadCntPtr -= 1;
+
+	// one user left, send new userCnt to all
+    for (int idx = 0; idx < *threadCntPtr; idx++)
+	{
+		char notification[15];
+		sprintf(notification, "%s%d>%s", USER_DEL_NOTE, *threadCntPtr, NAME[clientSockfd]);
+		send(uidPtr[idx], notification, strlen(notification) + 1, 0);
+	}
 
     return nullptr;
 }

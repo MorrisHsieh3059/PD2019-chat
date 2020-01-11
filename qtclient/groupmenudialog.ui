@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>500</height>
+    <width>594</width>
+    <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>150</x>
-     <y>220</y>
-     <width>200</width>
-     <height>70</height>
+     <x>230</x>
+     <y>240</y>
+     <width>431</width>
+     <height>251</height>
     </rect>
    </property>
    <property name="font">
@@ -27,21 +27,74 @@
      <pointsize>17</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/截圖 2020-01-08 下午3.33.00.png);</string>
+   </property>
    <property name="text">
-    <string>Room1: Politics</string>
+    <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QPushButton" name="pushButton_2">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>80</y>
-     <width>400</width>
-     <height>121</height>
+     <x>240</x>
+     <y>-20</y>
+     <width>361</width>
+     <height>261</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>17</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/截圖 2020-01-08 下午3.28.25.png);</string>
+   </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:20pt; font-weight:600;&quot;&gt;Group Chat Menu&lt;br/&gt;Choose one room!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>-50</x>
+     <y>-10</y>
+     <width>351</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>17</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/截圖 2020-01-08 下午3.18.30.png);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>-140</x>
+     <y>240</y>
+     <width>441</width>
+     <height>301</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>17</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-image: url(:/截圖 2020-01-08 下午3.41.57.png);</string>
+   </property>
+   <property name="text">
+    <string/>
    </property>
   </widget>
  </widget>

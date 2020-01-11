@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>460</y>
-     <width>421</width>
+     <width>420</width>
      <height>30</height>
     </rect>
    </property>
@@ -31,7 +31,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>231</width>
+     <width>230</width>
      <height>40</height>
     </rect>
    </property>
@@ -50,7 +50,7 @@
   <widget class="QLabel" name="userInfo">
    <property name="geometry">
     <rect>
-     <x>227</x>
+     <x>225</x>
      <y>10</y>
      <width>120</width>
      <height>40</height>
@@ -96,8 +96,17 @@
      <height>400</height>
     </rect>
    </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
    <property name="locale">
     <locale language="Chinese" country="Taiwan"/>
+   </property>
+   <property name="editTriggers">
+    <set>QAbstractItemView::NoEditTriggers</set>
+   </property>
+   <property name="movement">
+    <enum>QListView::Static</enum>
    </property>
   </widget>
  </widget>
