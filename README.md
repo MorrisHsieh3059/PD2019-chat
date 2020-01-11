@@ -2,10 +2,10 @@
  C++
 
 Instruction:
-    ---> ./server: compile the exe ur own (cmd: g++ server.cpp -lpthread -o host.out)
-    --> ./qtclient: contains the whole Qt client, recommend to compile ur own
-    ---> ./qtclient_execute: folder contains execute files (./qtclient)
-
+    ---> ./server: compile the exe ur own (cmd: g++ server.cpp -lpthread -o host.out) <br>
+    --> ./qtclient: contains the whole Qt client, recommend to compile ur own <br>
+    ---> ./qtclient_execute: folder contains execute files (./qtclient) <br>
+<br>
 init commit:
     local version
 
