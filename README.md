@@ -1,7 +1,7 @@
 # PD2019-chat
  C++
 
-Instruction:
+Instruction:<br>
     ---> ./server: compile the exe ur own (cmd: g++ server.cpp -lpthread -o host.out) <br>
     --> ./qtclient: contains the whole Qt client, recommend to compile ur own <br>
     ---> ./qtclient_execute: folder contains execute files (./qtclient) <br>
